@@ -1,0 +1,12 @@
+{
+	"name": "ls_GitHub",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://github.com/anmol143as-git/DataEngineering-ADF-Repo",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
