@@ -118,7 +118,7 @@
 						"referenceName": "ds_sink_bronze",
 						"type": "DatasetReference",
 						"parameters": {
-							"FileName": "Netflix Titles"
+							"FileName": "Netflix Titles.csv"
 						}
 					}
 				]
@@ -178,7 +178,7 @@
 						"referenceName": "ds_sink_bronze",
 						"type": "DatasetReference",
 						"parameters": {
-							"FileName": "Netflix Category"
+							"FileName": "Netflix Category.csv"
 						}
 					}
 				]
@@ -238,7 +238,7 @@
 						"referenceName": "ds_sink_bronze",
 						"type": "DatasetReference",
 						"parameters": {
-							"FileName": "Netflix Countries"
+							"FileName": "Netflix Countries.csv"
 						}
 					}
 				]
