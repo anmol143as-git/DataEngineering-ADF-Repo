@@ -1,5 +1,5 @@
 {
-	"name": "ds_Source_GitHub_NetflixTitles",
+	"name": "ds_Source_GitHub_NetflixCategory",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_GitHub",
@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "anmol143as-git/DataEngineering-ADF-Repo/refs/heads/main/netflix_titles_category.csv"
+				"relativeUrl": "anmol143as-git/DataEngineering-ADF-Repo/blob/main/netflix_titles_category.csv"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
