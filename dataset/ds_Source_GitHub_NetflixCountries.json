@@ -1,0 +1,22 @@
+{
+	"name": "ds_Source_GitHub_NetflixCountries",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_GitHub",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "anmol143as-git/DataEngineering-ADF-Repo/refs/heads/main/netflix_titles_countries.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
