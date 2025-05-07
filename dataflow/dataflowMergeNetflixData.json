@@ -1,0 +1,117 @@
+{
+	"name": "dataflowMergeNetflixData",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_bronze_NetflixTitles",
+						"type": "DatasetReference"
+					},
+					"name": "SourceNetflixTitles"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_bronze_NetflixCategories",
+						"type": "DatasetReference"
+					},
+					"name": "SourceNetflixCategories"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_bronze_NetflixCountries",
+						"type": "DatasetReference"
+					},
+					"name": "SourceNetflixCountries"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_silver_mergedNetflixData",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "join2"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          duration_minutes as string,",
+				"          duration_seasons as string,",
+				"          type as string,",
+				"          title as string,",
+				"          date_added as string,",
+				"          release_year as string,",
+				"          rating as string,",
+				"          description as string,",
+				"          show_id as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SourceNetflixTitles",
+				"source(output(",
+				"          listed_in as string,",
+				"          show_id as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SourceNetflixCategories",
+				"source(output(",
+				"          country as string,",
+				"          show_id as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SourceNetflixCountries",
+				"derivedColumn1, SourceNetflixCategories join(SourceNetflixTitles@show_id == SourceNetflixCategories@show_id,",
+				"     joinType:'outer',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1, SourceNetflixCountries join(SourceNetflixTitles@show_id == SourceNetflixCountries@show_id,",
+				"     joinType:'outer',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join2",
+				"join2 select(mapColumn(",
+				"          duration_minutes,",
+				"          duration_seasons,",
+				"          type,",
+				"          title,",
+				"          date_added,",
+				"          release_year,",
+				"          rating,",
+				"          description,",
+				"          show_id = SourceNetflixTitles@show_id,",
+				"          listed_in,",
+				"          country",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"SourceNetflixTitles derive(description = replace(description,\",\",'')) ~> derivedColumn1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

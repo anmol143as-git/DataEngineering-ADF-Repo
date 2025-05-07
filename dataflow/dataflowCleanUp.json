@@ -1,0 +1,40 @@
+{
+	"name": "dataflowCleanUp",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_bronze_NetflixTitles",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          duration_minutes as string,",
+				"          duration_seasons as string,",
+				"          type as string,",
+				"          title as string,",
+				"          date_added as string,",
+				"          release_year as string,",
+				"          rating as string,",
+				"          description as string,",
+				"          show_id as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(duration_minutes = replace(duration_minutes,',','')) ~> derivedColumn1"
+			]
+		}
+	}
+}
